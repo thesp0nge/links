@@ -4,7 +4,7 @@ require "w3ping/version"
 
 Gem::Specification.new do |s|
   s.name        = "w3ping"
-  s.version     = W3ping::VERSION
+  s.version     = W3ping::Version.version
   s.authors     = ["Paolo Perego"]
   s.email       = ["thesp0nge@gmail.com"]
   s.homepage    = ""
@@ -23,6 +23,8 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rake"
   s.add_development_dependency "rspec"
   s.add_development_dependency "nokogiri"
+  s.add_development_dependency "rainbow"
   # s.add_runtime_dependency "rest-client"
   s.add_runtime_dependency "nokogiri"
+  s.add_runtime_dependency "rainbow"
 end

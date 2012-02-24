@@ -1,0 +1,1 @@
+require 'w3ping'
