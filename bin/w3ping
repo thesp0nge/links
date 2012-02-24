@@ -1,4 +1,4 @@
 #!/usr/bin/env ruby
 require "w3ping"
 
-puts W3ping::Api.code(ARGV[0])
+puts W3ping::Api.follow(ARGV[0])

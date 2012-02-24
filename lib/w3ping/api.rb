@@ -13,6 +13,11 @@ module W3ping
       res = W3ping::Api.get(url)
       doc = Nokogiri::HTML.parse(res.body)
       l = doc.css('a').map { |link| link['href'] }
+      if l.count > 1 
+        return "500"
+      end
+      puts "following url to #{l[0]} from #{url}"
+      self.code(l[0])
     end
 
     def self.human(url)
