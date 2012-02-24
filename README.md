@@ -1,35 +1,35 @@
-# w3ping
+# links
 
 ## Introduction
 
-[w3ping](https://github.com/thesp0nge/w3ping) is a tool for checking an URL for
+[links](https://github.com/thesp0nge/links) is a tool for checking an URL for
 availability by trying to access it and grabbing the HTTP return code.
 
 The idea came to me during a penetration test since I had a bulk list of URLs
 to check for availability and I wanted to automate this process.
 
-## Installing w3ping
+## Installing links
 
-Installing w3ping is easy. You can always obtain the latest stable code by using the following command: 
+Installing links is easy. You can always obtain the latest stable code by using the following command: 
 
 ``` 
-gem install w3ping
+gem install links
 ```
 
 If you want to install a _pre_ release, such as a _release candidate_ you can do it this way:
 ```
-gem install w3ping --pre
+gem install links --pre
 ```
 
-## Using w3ping
+## Using links
 
-After you installed w3ping gem, you have the w3ping command you can use this way:
+After you installed links gem, you have the links command you can use this way:
 
 ```
-w3ping http://www.some.org/somepage.html
+links http://www.some.org/somepage.html
 ```
 
-## Contributing to w3ping
+## Contributing to links
  
 * Check out the latest master to make sure the feature hasn't been implemented
   or the bug hasn't been fixed yet
