@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Paolo Perego"]
   s.email       = ["thesp0nge@gmail.com"]
   s.homepage    = ""
-  s.summary     = %q{TODO: Write a gem summary}
-  s.description = %q{TODO: Write a gem description}
+  s.summary     = %q{Ping an url to check the return status}
+  s.description = %q{Sometimes you have to bulk check an url for being opened or closed}
 
   s.rubyforge_project = "w3ping"
 
@@ -19,6 +19,9 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   # specify any dependencies here; for example:
-  # s.add_development_dependency "rspec"
+  s.add_development_dependency "rake"
+  s.add_development_dependency "rspec"
+  s.add_development_dependency "nokogiri"
   # s.add_runtime_dependency "rest-client"
+  s.add_runtime_dependency "nokogiri"
 end
