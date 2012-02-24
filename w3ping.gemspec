@@ -8,8 +8,9 @@ Gem::Specification.new do |s|
   s.authors     = ["Paolo Perego"]
   s.email       = ["thesp0nge@gmail.com"]
   s.homepage    = ""
-  s.summary     = %q{Ping an url to check the return status}
-  s.description = %q{Sometimes you have to bulk check an url for being opened or closed}
+  s.summary     = %q{Checks an URL HTTP status and shows if you can access it or not}
+  s.description = %q{Checks if you can access an URL from the HTTP returns code. This can be useful while spidering a website or while checking if a page is online without opening the browser}
+  s.license     = "BSD"
 
   s.rubyforge_project = "w3ping"
 
