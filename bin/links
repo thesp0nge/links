@@ -40,6 +40,11 @@ if list.count == 0
   list<<ARGV[0]
 end
 
+if list[0].nil?
+  puts "links: missing target".color(:red)
+  exit 1
+end
+
 list.each do |l|
   print "#{l}:".color(:white)
   code = Links::Api.human(l)
