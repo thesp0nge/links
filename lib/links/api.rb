@@ -9,10 +9,15 @@ module Links
       res.code
     end
 
-    def self.follow(url)
+    def self.links(url)
       res = Links::Api.get(url)
       doc = Nokogiri::HTML.parse(res.body)
       l = doc.css('a').map { |link| link['href'] }
+      l
+    end
+
+    def self.follow(url)
+      l = Links::Api.links(url)
       if l.count > 1 
         return 
       end
