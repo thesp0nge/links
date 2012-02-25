@@ -1,10 +1,10 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
-require "w3ping/version"
+require "links/version"
 
 Gem::Specification.new do |s|
-  s.name        = "w3ping"
-  s.version     = W3ping::Version.version
+  s.name        = "links"
+  s.version     = Links::Version.version
   s.authors     = ["Paolo Perego"]
   s.email       = ["thesp0nge@gmail.com"]
   s.homepage    = ""
@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.description = %q{Checks if you can access an URL from the HTTP returns code. This can be useful while spidering a website or while checking if a page is online without opening the browser}
   s.license     = "BSD"
 
-  s.rubyforge_project = "w3ping"
+  s.rubyforge_project = "links"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
