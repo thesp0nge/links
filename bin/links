@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-require "w3ping"
+require "links"
 require "rainbow"
 require 'getoptlong'
 
@@ -15,22 +15,22 @@ list=[]
 opts.each do |opt, arg|
   case opt
   when '--help'
-    puts "usage: w3ping [-bvh] [filename]"
+    puts "usage: links [-bvh] [filename]"
     puts "   -b filename: loads the url list from a plain text file"
     puts "   -v : shows version information"
     puts "   -h : shows this help"
     exit 0
   when '--version'
-    puts "w3ping #{W3ping::Version.version}"
+    puts "links #{Links::Version.version}"
     exit 0
   when '--bulk'
     if ! File.exists?(arg)
-      puts "w3ping: file not found (#{arg})".color(:red)
+      puts "links: file not found (#{arg})".color(:red)
       exit 1
     end
     list = File.open(arg).readlines
     if list.count <= 0
-      puts "w3ping: invalid url list".color(:red)
+      puts "links: invalid url list".color(:red)
       exit 1
     end
   end
@@ -42,7 +42,7 @@ end
 
 list.each do |l|
   print "#{l}:".color(:white)
-  code = W3ping::Api.human(l)
+  code = Links::Api.human(l)
   case code
   when "Open"
     print " #{code}\n".color(:green)
@@ -55,9 +55,9 @@ list.each do |l|
   end
 
   if code == 301
-    new_link = W3ping::Api.follow(l)
+    new_link = Links::Api.follow(l)
     printf "following from #{l} to #{new_link}\n".color(:grey)
-    code = W3ping::Api.human(l)
+    code = Links::Api.human(l)
     case code
     when "Open"
       print " #{code}\n".color(:green)

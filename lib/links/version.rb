@@ -1,7 +1,7 @@
-module W3ping
+module Links
   module Version
     MAJOR = 0 
-    MINOR = 10
+    MINOR = 20
     PATCH = 0
     BUILD = ''
 

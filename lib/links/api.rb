@@ -1,16 +1,16 @@
 require "net/http"
 require "nokogiri"
 
-module W3ping
+module Links
   class Api
 
     def self.code(url)
-      res = W3ping::Api.get(url)
+      res = Links::Api.get(url)
       res.code
     end
 
     def self.follow(url)
-      res = W3ping::Api.get(url)
+      res = Links::Api.get(url)
       doc = Nokogiri::HTML.parse(res.body)
       l = doc.css('a').map { |link| link['href'] }
       if l.count > 1 
