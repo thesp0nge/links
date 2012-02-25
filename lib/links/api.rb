@@ -16,6 +16,12 @@ module Links
       l
     end
 
+    def self.robots(site)
+      res=Net::Http.get(site, '/robots.txt')
+      res
+      
+    end
+
     def self.follow(url)
       l = Links::Api.links(url)
       l[0]

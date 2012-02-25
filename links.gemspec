@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Paolo Perego"]
   s.email       = ["thesp0nge@gmail.com"]
   s.homepage    = ""
-  s.summary     = %q{Checks an URL HTTP status and shows if you can access it or not}
-  s.description = %q{Checks if you can access an URL from the HTTP returns code. This can be useful while spidering a website or while checking if a page is online without opening the browser}
+  s.summary     = %q{Fetch, discover and crawl what's available in a website.}
+  s.description = %q{During the first stage of a security test, it's useful to enumerate website urls without making too much noise. Links can help in this using robots.txt or link in a web page telling you the website contents.}
   s.license     = "BSD"
 
   s.rubyforge_project = "links"

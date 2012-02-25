@@ -2,8 +2,8 @@
 
 ## Introduction
 
-[links](https://github.com/thesp0nge/links) is a tool for checking an URL for
-availability by trying to access it and grabbing the HTTP return code.
+[links](https://github.com/thesp0nge/links) is a tool for discovering a website
+available pages without making too much noise.
 
 The idea came to me during a penetration test since I had a bulk list of URLs
 to check for availability and I wanted to automate this process.
