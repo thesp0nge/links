@@ -18,9 +18,6 @@ module Links
 
     def self.follow(url)
       l = Links::Api.links(url)
-      if l.count > 1 
-        return 
-      end
       l[0]
     end
 
