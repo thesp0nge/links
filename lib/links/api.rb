@@ -19,19 +19,35 @@ module Links
       l
     end
 
-    def self.robots(site)
+    def self.robots(site, only_disallow=true)
 
       if (! site.start_with? 'http://') and (! site.start_with? 'https://')
         site = 'http://'+site
       end
 
+      list = []
       begin
         res=Net::HTTP.get_response(URI(site+'/robots.txt'))
-        res
+        if (res.code != "200")
+          return []
+        end
+
+        res.body.split("\n").each do |line|
+          if only_disallow
+            if (line.start_with?('Disallow'))
+              list << line.split(":")[1].strip.chomp
+            end
+          else
+            if (line.start_with?('Allow') or line.start_with?('Disallow'))
+              list << line.split(":")[1].strip.chomp
+            end
+          end
+        end
       rescue
-        return nil
+        return []
       end
       
+      list
     end
 
     def self.follow(url)
