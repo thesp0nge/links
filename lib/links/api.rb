@@ -65,6 +65,8 @@ module Links
         return "Non existent"
       when 401
         return "Closed"
+      when 403
+        return "Forbidden"
       else
         return "Broken"
       end

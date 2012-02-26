@@ -19,6 +19,7 @@ opts.each do |opt, arg|
   when '--help'
     puts "usage: links [-bvh] [filename]"
     puts "   -b filename: loads the url list from a plain text file"
+    puts "   -r : parse robots.txt and make requests to disallowed urls"
     puts "   -v : shows version information"
     puts "   -h : shows this help"
     exit 0
