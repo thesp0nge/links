@@ -6,11 +6,13 @@ require 'getoptlong'
 opts = GetoptLong.new(
   [ '--help', '-h', GetoptLong::NO_ARGUMENT ],
   [ '--version', '-v', GetoptLong::NO_ARGUMENT ],
-  [ '--bulk', '-b', GetoptLong::REQUIRED_ARGUMENT ]
+  [ '--bulk', '-b', GetoptLong::REQUIRED_ARGUMENT ],
+  [ '--robots', '-r', GetoptLong::NO_ARGUMENT ]
 )
 
 trap("INT") { puts '['+'INTERRUPTED'.color(:red)+']'; exit -1 }
 list=[]
+robots=false
 
 opts.each do |opt, arg|
   case opt
@@ -23,6 +25,8 @@ opts.each do |opt, arg|
   when '--version'
     puts "links #{Links::Version.version}"
     exit 0
+  when '--robots'
+    robots=true
   when '--bulk'
     if ! File.exists?(arg)
       puts "links: file not found (#{arg})".color(:red)
@@ -36,8 +40,10 @@ opts.each do |opt, arg|
   end
 end
 
+target = ARGV[0]
+
 if list.count == 0
-  list<<ARGV[0]
+  list<<target
 end
 
 if list[0].nil?
@@ -45,9 +51,17 @@ if list[0].nil?
   exit 1
 end
 
+if robots
+  list = Links::Api.robots(target)
+end
+
 list.each do |l|
   print "#{l}:".color(:white)
-  code = Links::Api.human(l)
+  if robots
+    code = Links::Api.human('http://'+target+l)
+  else
+    code = Links::Api.human(l)
+  end
   case code
   when "Open"
     print " #{code}\n".color(:green)
