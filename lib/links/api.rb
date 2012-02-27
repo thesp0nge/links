@@ -55,8 +55,8 @@ module Links
       l[0]
     end
 
-    def self.human(url)
-      case self.code(url).to_i
+    def self.human(code)
+      case code.to_i
       when 200
         return "Open"
       when 301

@@ -7,6 +7,7 @@ opts = GetoptLong.new(
   [ '--help', '-h', GetoptLong::NO_ARGUMENT ],
   [ '--version', '-v', GetoptLong::NO_ARGUMENT ],
   [ '--bulk', '-b', GetoptLong::REQUIRED_ARGUMENT ],
+  [ '--code', '-c', GetoptLong::NO_ARGUMENT ],
   [ '--robots', '-r', GetoptLong::NO_ARGUMENT ]
 )
 
@@ -14,6 +15,7 @@ trap("INT") { puts '['+'INTERRUPTED'.color(:red)+']'; exit -1 }
 list=[]
 robots=false
 bulk=false
+show_code=false
 
 opts.each do |opt, arg|
   case opt
@@ -21,12 +23,15 @@ opts.each do |opt, arg|
     puts "usage: links [-bvh] [filename]"
     puts "   -b filename: loads the url list from a plain text file"
     puts "   -r : parse robots.txt and make requests to disallowed urls"
+    puts "   -c : shows the return code instead of human readable answer"
     puts "   -v : shows version information"
     puts "   -h : shows this help"
     exit 0
   when '--version'
     puts "links #{Links::Version.version}"
     exit 0
+  when '--code'
+    show_code = true
   when '--robots'
     robots=true
   when '--bulk'
@@ -71,35 +76,71 @@ list.each do |l|
     #puts "T: #{target}"
     #puts "L: #{l}"
     print "#{target}#{l}:".color(:white)
-    code = Links::Api.human(target+l)
+    code = Links::Api.code(target+l)
   else
     print "#{l}:".color(:white)
-    code = Links::Api.human(l)
+    code = Links::Api.code(l)
   end
-  case code
+
+  str=Links::Api.human(code)
+
+  case str
   when "Open"
-    print " #{code}\n".color(:green)
+    if (show_code)
+      print " #{code}\n".color(:green)
+    else
+      print " #{str}\n".color(:green)
+    end
   when "Non existent"
-    print " #{code}\n".color(:red)
+    if (show_code)
+      print " #{code}\n".color(:red)
+    else
+      print " #{str}\n".color(:red)
+    end
   when "Closed"
+    if (show_code)
     print " #{code}\n".color(:red)
+    else
+    print " #{str}\n".color(:red)
+    end
   else
-    print " #{code}\n".color(:yellow)
+    if (show_code)
+      print " #{code}\n".color(:yellow)
+    else
+      print " #{str}\n".color(:yellow)
+    end
   end
 
   if code == 301
     new_link = Links::Api.follow(l)
     printf "following from #{l} to #{new_link}\n".color(:grey)
-    code = Links::Api.human(l)
-    case code
+    str=Links::Api.human(code)
+
+    case str
     when "Open"
-      print " #{code}\n".color(:green)
+      if (show_code)
+        print " #{code}\n".color(:green)
+      else
+        print " #{str}\n".color(:green)
+      end
     when "Non existent"
-      print " #{code}\n".color(:red)
+      if (show_code)
+        print " #{code}\n".color(:red)
+      else
+        print " #{str}\n".color(:red)
+      end
     when "Closed"
-      print " #{code}\n".color(:red)
+      if (show_code)
+        print " #{code}\n".color(:red)
+      else
+        print " #{str}\n".color(:red)
+      end
     else
-      print " #{code}\n".color(:yellow)
+      if (show_code)
+        print " #{code}\n".color(:yellow)
+      else
+        print " #{str}\n".color(:yellow)
+      end
     end
 
   end
