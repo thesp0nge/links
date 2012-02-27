@@ -6,7 +6,7 @@ module Links
 
     def self.code(url)
       res = Links::Api.get(url)
-      res.code ||= -1
+      (res.nil?)? -1 : res.code
     end
 
     def self.links(url)
@@ -67,6 +67,8 @@ module Links
         return "Closed"
       when 403
         return "Forbidden"
+      when -1
+        return "No answer"
       else
         return "Broken"
       end
@@ -75,7 +77,16 @@ module Links
     private
     def self.get(url)
       begin
-        Net::HTTP.get_response(URI(url))
+        uri = URI(url)
+        if uri.scheme == 'http'
+          res = Net::HTTP.get_response(URI(url))
+        else
+          request=Net::HTTP.new(uri.host, uri.port)
+          request.use_ssl=true
+          request.verify_mode = OpenSSL::SSL::VERIFY_NONE
+          res = request.get(uri.request_uri)
+        end
+        return res
       rescue
         return nil
       end

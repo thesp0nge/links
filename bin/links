@@ -63,11 +63,13 @@ list.each do |l|
     if ! l.start_with? '/'
       l = '/'+l.chomp
     end
-    if ! target.start_with? 'http://'
+    if ! target.start_with? 'http://' and ! target.start_with? 'https://'
+      #defaulting to HTTP when no protocol has been supplied
       target = "http://"+target
     end
-    puts "T: #{target}"
-    puts "L: #{l}"
+
+    #puts "T: #{target}"
+    #puts "L: #{l}"
     print "#{target}#{l}:".color(:white)
     code = Links::Api.human(target+l)
   else
