@@ -13,6 +13,7 @@ opts = GetoptLong.new(
 trap("INT") { puts '['+'INTERRUPTED'.color(:red)+']'; exit -1 }
 list=[]
 robots=false
+bulk=false
 
 opts.each do |opt, arg|
   case opt
@@ -29,6 +30,7 @@ opts.each do |opt, arg|
   when '--robots'
     robots=true
   when '--bulk'
+    bulk=true
     if ! File.exists?(arg)
       puts "links: file not found (#{arg})".color(:red)
       exit 1
@@ -58,7 +60,7 @@ end
 
 list.each do |l|
   print "#{l}:".color(:white)
-  if robots
+  if robots or bulk
     code = Links::Api.human('http://'+target+l)
   else
     code = Links::Api.human(l)
