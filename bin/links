@@ -59,10 +59,19 @@ if robots
 end
 
 list.each do |l|
-  print "#{l}:".color(:white)
   if robots or bulk
-    code = Links::Api.human('http://'+target+l)
+    if ! l.start_with? '/'
+      l = '/'+l.chomp
+    end
+    if ! target.start_with? 'http://'
+      target = "http://"+target
+    end
+    puts "T: #{target}"
+    puts "L: #{l}"
+    print "#{target}#{l}:".color(:white)
+    code = Links::Api.human(target+l)
   else
+    print "#{l}:".color(:white)
     code = Links::Api.human(l)
   end
   case code
