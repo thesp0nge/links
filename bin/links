@@ -82,10 +82,14 @@ list.each do |l|
     #puts "T: #{target}"
     #puts "L: #{l}"
     print "#{target}#{l}:".color(:white)
+    start = Time.now
     code = Links::Api.code(target+l, proxy)
+    stop = Time.now
   else
     print "#{l}:".color(:white)
+    start = Time.now
     code = Links::Api.code(l, proxy)
+    stop = Time.now
   end
 
   str=Links::Api.human(code)
@@ -93,61 +97,64 @@ list.each do |l|
   case str
   when "Open"
     if (show_code)
-      print " #{code}\n".color(:green)
+      print " #{code} (#{((stop-start) * 1000).round} msec)\n".color(:green)
     else
-      print " #{str}\n".color(:green)
+      print " #{str} (#{((stop-start) * 1000).round} msec)\n".color(:green)
     end
   when "Non existent"
     if (show_code)
-      print " #{code}\n".color(:red)
+      print " #{code} (#{((stop-start) * 1000).round} msec)\n".color(:red)
     else
-      print " #{str}\n".color(:red)
+      print " #{str} (#{((stop-start) * 1000).round} msec)\n".color(:red)
     end
   when "Closed"
     if (show_code)
-    print " #{code}\n".color(:red)
+    print " #{code} (#{((stop-start) * 1000).round} msec)\n".color(:red)
     else
-    print " #{str}\n".color(:red)
+    print " #{str} (#{((stop-start) * 1000).round} msec)\n".color(:red)
     end
   else
     if (show_code)
-      print " #{code}\n".color(:yellow)
+      print " #{code} (#{((stop-start) * 1000).round} msec)\n".color(:yellow)
     else
-      print " #{str}\n".color(:yellow)
+      print " #{str} (#{((stop-start) * 1000).round} msec)\n".color(:yellow)
     end
   end
 
+
   if code == 301 or code == 302
+    start = Time.now
     new_link = Links::Api.follow(l, proxy)
+    stop = Time.now
     printf "following from #{l} to #{new_link}\n".color(:grey)
     str=Links::Api.human(code)
 
-    case str
-    when "Open"
-      if (show_code)
-        print " #{code}\n".color(:green)
-      else
-        print " #{str}\n".color(:green)
-      end
-    when "Non existent"
-      if (show_code)
-        print " #{code}\n".color(:red)
-      else
-        print " #{str}\n".color(:red)
-      end
-    when "Closed"
-      if (show_code)
-        print " #{code}\n".color(:red)
-      else
-        print " #{str}\n".color(:red)
-      end
+   case str
+  when "Open"
+    if (show_code)
+      print " #{code} (#{((stop-start) * 1000).round} msec)\n".color(:green)
     else
-      if (show_code)
-        print " #{code}\n".color(:yellow)
-      else
-        print " #{str}\n".color(:yellow)
-      end
+      print " #{str} (#{((stop-start) * 1000).round} msec)\n".color(:green)
     end
+  when "Non existent"
+    if (show_code)
+      print " #{code} (#{((stop-start) * 1000).round} msec)\n".color(:red)
+    else
+      print " #{str} (#{((stop-start) * 1000).round} msec)\n".color(:red)
+    end
+  when "Closed"
+    if (show_code)
+    print " #{code} (#{((stop-start) * 1000).round} msec)\n".color(:red)
+    else
+    print " #{str} (#{((stop-start) * 1000).round} msec)\n".color(:red)
+    end
+  else
+    if (show_code)
+      print " #{code} (#{((stop-start) * 1000).round} msec)\n".color(:yellow)
+    else
+      print " #{str} (#{((stop-start) * 1000).round} msec)\n".color(:yellow)
+    end
+  end
 
   end
 
