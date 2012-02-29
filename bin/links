@@ -7,6 +7,7 @@ opts = GetoptLong.new(
   [ '--help', '-h', GetoptLong::NO_ARGUMENT ],
   [ '--version', '-v', GetoptLong::NO_ARGUMENT ],
   [ '--bulk', '-b', GetoptLong::REQUIRED_ARGUMENT ],
+  [ '--proxy', '-P',  GetoptLong::REQUIRED_ARGUMENT ],
   [ '--code', '-c', GetoptLong::NO_ARGUMENT ],
   [ '--robots', '-r', GetoptLong::NO_ARGUMENT ]
 )
@@ -16,6 +17,7 @@ list=[]
 robots=false
 bulk=false
 show_code=false
+proxy={:host=>nil, :port=>-1}
 
 opts.each do |opt, arg|
   case opt
@@ -24,6 +26,7 @@ opts.each do |opt, arg|
     puts "   -b filename: loads the url list from a plain text file"
     puts "   -r : parse robots.txt and make requests to disallowed urls"
     puts "   -c : shows the return code instead of human readable answer"
+    puts "   -P host:port : connect using a proxy server. Useful in combination with Paros, Owasp Zap and other"
     puts "   -v : shows version information"
     puts "   -h : shows this help"
     exit 0
@@ -32,6 +35,9 @@ opts.each do |opt, arg|
     exit 0
   when '--code'
     show_code = true
+  when '--proxy'
+    proxy[:host]=arg.split(':')[0]
+    proxy[:port]=arg.split(':')[1].to_i
   when '--robots'
     robots=true
   when '--bulk'
@@ -76,10 +82,10 @@ list.each do |l|
     #puts "T: #{target}"
     #puts "L: #{l}"
     print "#{target}#{l}:".color(:white)
-    code = Links::Api.code(target+l)
+    code = Links::Api.code(target+l, proxy)
   else
     print "#{l}:".color(:white)
-    code = Links::Api.code(l)
+    code = Links::Api.code(l, proxy)
   end
 
   str=Links::Api.human(code)
@@ -112,7 +118,7 @@ list.each do |l|
   end
 
   if code == 301 or code == 302
-    new_link = Links::Api.follow(l)
+    new_link = Links::Api.follow(l, proxy)
     printf "following from #{l} to #{new_link}\n".color(:grey)
     str=Links::Api.human(code)
 

@@ -4,13 +4,13 @@ require "nokogiri"
 module Links
   class Api
 
-    def self.code(url)
-      res = Links::Api.get(url)
+    def self.code(url, proxy)
+      res = Links::Api.get(url, proxy)
       (res.nil?)? -1 : res.code
     end
 
     def self.links(url)
-      res = Links::Api.get(url)
+      res = Links::Api.get(url, proxy)
       if res.nil?
         return []
       end
@@ -50,7 +50,7 @@ module Links
       list
     end
 
-    def self.follow(url)
+    def self.follow(url, proxy)
       l = Links::Api.links(url)
       l[0]
     end
@@ -75,11 +75,15 @@ module Links
     end
 
     private
-    def self.get(url)
+    def self.get(url, proxy)
       begin
         uri = URI(url)
         if uri.scheme == 'http'
-          res = Net::HTTP.get_response(URI(url))
+          Net::HTTP::Proxy(proxy[:host], proxy[:port]).start(uri.host) {|http|
+            res = http.get(uri.request_uri)
+            return res
+          }
+          # res = Net::HTTP.get_response(URI(url))
         else
           request=Net::HTTP.new(uri.host, uri.port)
           request.use_ssl=true
