@@ -1,7 +1,7 @@
 module Links
   module Version
     MAJOR = 0 
-    MINOR = 40
+    MINOR = 45
     PATCH = 0
     BUILD = ''
 

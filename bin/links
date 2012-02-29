@@ -111,7 +111,7 @@ list.each do |l|
     end
   end
 
-  if code == 301
+  if code == 301 or code == 302
     new_link = Links::Api.follow(l)
     printf "following from #{l} to #{new_link}\n".color(:grey)
     str=Links::Api.human(code)
