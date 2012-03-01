@@ -4,6 +4,14 @@ require "nokogiri"
 module Links
   class Api
 
+    def self.get(url, proxy)
+      return Links::Api.request({:url=>url, :proxy=>proxy, :method=>:get})
+    end
+
+    def self.head(url, proxy)
+      return Links::Api.request({:url=>url, :proxy=>proxy, :method=>:head})
+    end
+
     def self.code(url, proxy)
       res = Links::Api.get(url, proxy)
       (res.nil?)? -1 : res.code
@@ -111,9 +119,6 @@ module Links
 
     end
 
-    def self.get(url, proxy)
-      return Links::Api.request({:url=>url, :proxy=>proxy, :method=>:get})
-    end
 
   end
 end
