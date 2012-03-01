@@ -17,7 +17,7 @@ module Links
       (res.nil?)? -1 : res.code
     end
 
-    def self.links(url)
+    def self.links(url, proxy)
       res = Links::Api.get(url, proxy)
       if res.nil?
         return []
