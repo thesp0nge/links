@@ -75,12 +75,21 @@ module Links
     end
 
     private
-    def self.get(url, proxy)
+
+    def self.request(options)
+      url    = options[:url]
+      proxy  = options[:proxy]
+      method = options[:method]
+
       begin
         uri = URI(url)
         if uri.scheme == 'http'
           Net::HTTP::Proxy(proxy[:host], proxy[:port]).start(uri.host) {|http|
-            res = http.get(uri.request_uri)
+            if (method == :get)
+              res = http.get(uri.request_uri)
+            else
+              res = http.head(uri.request_uri)
+            end
             return res
           }
           # res = Net::HTTP.get_response(URI(url))
@@ -88,12 +97,22 @@ module Links
           request=Net::HTTP.new(uri.host, uri.port)
           request.use_ssl=true
           request.verify_mode = OpenSSL::SSL::VERIFY_NONE
-          res = request.get(uri.request_uri)
+          if (method == :get)
+            res = request.get(uri.request_uri)
+          else
+            res = request.head(uri.request_uri)
+          end
+
         end
         return res
       rescue
         return nil
       end
+
+    end
+
+    def self.get(url, proxy)
+      return Links::Api.request({:url=>url, :proxy=>proxy, :method=>:get})
     end
 
   end
