@@ -27,6 +27,7 @@ module Links
       l
     end
 
+    # TESTING: SPIDERS, ROBOTS, AND CRAWLERS (OWASP-IG-001)
     def self.robots(site, only_disallow=true)
 
       if (! site.start_with? 'http://') and (! site.start_with? 'https://')
@@ -42,11 +43,11 @@ module Links
 
         res.body.split("\n").each do |line|
           if only_disallow
-            if (line.start_with?('Disallow'))
+            if (line.downcase.start_with?('disallow'))
               list << line.split(":")[1].strip.chomp
             end
           else
-            if (line.start_with?('Allow') or line.start_with?('Disallow'))
+            if (line.downcase.start_with?('allow') or line.downcase.start_with?('disallow'))
               list << line.split(":")[1].strip.chomp
             end
           end
