@@ -61,6 +61,9 @@ end
 
 if robots
   list = Links::Api.robots(target)
+  if list.empty?
+    printf "#{target}: no robots.txt found\n".color(:red)
+  end
 end
 
 list.each do |l|
