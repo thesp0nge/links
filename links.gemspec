@@ -22,9 +22,10 @@ Gem::Specification.new do |s|
   # specify any dependencies here; for example:
   s.add_development_dependency "rake"
   s.add_development_dependency "rspec"
-  s.add_development_dependency "nokogiri"
   s.add_development_dependency "rainbow"
   # s.add_runtime_dependency "rest-client"
-  s.add_runtime_dependency "nokogiri"
   s.add_runtime_dependency "rainbow"
+
+  s.add_dependency "nokogiri"
+  s.add_dependency "mechanize"
 end

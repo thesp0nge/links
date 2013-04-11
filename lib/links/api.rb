@@ -2,7 +2,9 @@ require "net/http"
 require "nokogiri"
 
 module Links
-  class Api
+  module Api
+
+#    include Links::Google
 
     def self.get(url, proxy)
       return Links::Api.request({:url=>url, :proxy=>proxy, :method=>:get})
