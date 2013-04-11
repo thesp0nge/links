@@ -68,7 +68,10 @@ list<<target if list.empty?
 
 logger.die("links: missing target") if list[0].nil?
 
-list = Codesake::Links::Api.robots(target, proxy) if robots
+if robots
+  list = Codesake::Links::Api.robots(target)
+  logger.err "#{target}: no robots.txt found\n" if list.empty?
+end
 
 list.each do |l|
   if robots or bulk
