@@ -1,13 +1,13 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
-require "links/version"
+require "codesake/links/version"
 
 Gem::Specification.new do |s|
   s.name        = "links"
-  s.version     = Links::Version.version
+  s.version     = Codesake::Links::VERSION
   s.authors     = ["Paolo Perego"]
   s.email       = ["paolo@armoredcode.com"]
-  s.homepage    = ""
+  s.homepage    = "http://codesake.com"
   s.summary     = %q{Fetch, discover and crawl what's available in a website.}
   s.description = %q{During the first stage of a security test, it's useful to enumerate website urls without making too much noise. Links can help in this using robots.txt or link in a web page telling you the website contents.}
   s.license     = "BSD"

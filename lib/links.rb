@@ -1,2 +1,2 @@
-require "links/version"
-require "links/api"
+require "codesake/links/version"
+require "codesake/links/api"

@@ -1,8 +1,13 @@
 #!/usr/bin/env ruby
-require "links"
 require "rainbow"
 require 'getoptlong'
 
+require "codesake_commons"
+require "links"
+
+APPNAME = File.basename($0)
+
+logger = Codesake::Commons::Logging.instance
 opts = GetoptLong.new(
   [ '--help', '-h', GetoptLong::NO_ARGUMENT ],
   [ '--version', '-v', GetoptLong::NO_ARGUMENT ],
@@ -11,8 +16,9 @@ opts = GetoptLong.new(
   [ '--code', '-c', GetoptLong::NO_ARGUMENT ],
   [ '--robots', '-r', GetoptLong::NO_ARGUMENT ]
 )
+trap("INT") { logger.die("[INTERRUPTED]") }
 
-trap("INT") { puts '['+'INTERRUPTED'.color(:red)+']'; exit -1 }
+
 list=[]
 robots=false
 bulk=false
@@ -31,7 +37,7 @@ opts.each do |opt, arg|
     puts "   -h : shows this help"
     exit 0
   when '--version'
-    puts "links #{Links::Version.version}"
+    puts "#{Codesake::Links::VERSION}"
     exit 0
   when '--code'
     show_code = true
@@ -55,19 +61,14 @@ opts.each do |opt, arg|
 end
 
 target = ARGV[0]
+logger.helo "#{APPNAME} v#{Codesake::Links::VERSION} (C) 2013 - paolo@armoredcode.com is starting up"
 
-if list.count == 0
-  list<<target
-end
 
-if list[0].nil?
-  puts "links: missing target".color(:red)
-  exit 1
-end
+list<<target if list.empty?
 
-if robots
-  list = Links::Api.robots(target, proxy)
-end
+logger.die("links: missing target") if list[0].nil?
+
+list = Codesake::Links::Api.robots(target, proxy) if robots
 
 list.each do |l|
   if robots or bulk
@@ -79,82 +80,32 @@ list.each do |l|
       target = "http://"+target
     end
 
-    #puts "T: #{target}"
-    #puts "L: #{l}"
-    print "#{target}#{l}:".color(:white)
+    logger.log "#{target}#{l}:"
     start = Time.now
-    code = Links::Api.code(target+l, proxy)
+    code = Codesake::Links::Api.code(target+l, proxy)
     stop = Time.now
   else
-    print "#{l}:".color(:white)
+    logger.log "#{l}:"
     start = Time.now
-    code = Links::Api.code(l, proxy)
+    code = Codesake::Links::Api.code(l, proxy)
     stop = Time.now
   end
 
-  str=Links::Api.human(code)
+  str=Codesake::Links::Api.human(code)
 
-  case str
-  when "Open"
-    if (show_code)
-      print " #{code} (#{((stop-start) * 1000).round} msec)\n".color(:green)
-    else
-      print " #{str} (#{((stop-start) * 1000).round} msec)\n".color(:green)
-    end
-  when "Non existent"
-    if (show_code)
-      print " #{code} (#{((stop-start) * 1000).round} msec)\n".color(:red)
-    else
-      print " #{str} (#{((stop-start) * 1000).round} msec)\n".color(:red)
-    end
-  when "Closed"
-    if (show_code)
-    print " #{code} (#{((stop-start) * 1000).round} msec)\n".color(:red)
-    else
-    print " #{str} (#{((stop-start) * 1000).round} msec)\n".color(:red)
-    end
-  else
-    if (show_code)
-      print " #{code} (#{((stop-start) * 1000).round} msec)\n".color(:yellow)
-    else
-      print " #{str} (#{((stop-start) * 1000).round} msec)\n".color(:yellow)
-    end
-  end
-
+  print_string(str)     unless show_code
+  print_code(str, code) if show_code
+ 
 
   if code == 301 or code == 302
     start = Time.now
-    new_link = Links::Api.follow(l, proxy)
+    new_link = Codesake::Links::Api.follow(l, proxy)
     stop = Time.now
-    printf "following from #{l} to #{new_link}\n".color(:grey)
-    str=Links::Api.human(code)
+    logger.log "following from #{l} to #{new_link}\n"
+    str=Codesake::Links::Api.human(code)
 
-   case str
-  when "Open"
-    if (show_code)
-      print " #{code} (#{((stop-start) * 1000).round} msec)\n".color(:green)
-    else
-      print " #{str} (#{((stop-start) * 1000).round} msec)\n".color(:green)
-    end
-  when "Non existent"
-    if (show_code)
-      print " #{code} (#{((stop-start) * 1000).round} msec)\n".color(:red)
-    else
-      print " #{str} (#{((stop-start) * 1000).round} msec)\n".color(:red)
-    end
-  when "Closed"
-    if (show_code)
-    print " #{code} (#{((stop-start) * 1000).round} msec)\n".color(:red)
-    else
-    print " #{str} (#{((stop-start) * 1000).round} msec)\n".color(:red)
-    end
-  else
-    if (show_code)
-      print " #{code} (#{((stop-start) * 1000).round} msec)\n".color(:yellow)
-    else
-      print " #{str} (#{((stop-start) * 1000).round} msec)\n".color(:yellow)
-    end
-  end
+    print_string(str)     unless show_code
+    print_code(str, code) if show_code
 
   end
 
