@@ -96,8 +96,8 @@ list.each do |l|
 
   str=Codesake::Links::Api.human(code)
 
-  print_string(str)     unless show_code
-  print_code(str, code) if show_code
+  Codesake::Links::Utils.print_str(logger, str, start, stop)     unless show_code
+  Codesake::Links::Utils.print_code(logger, str, code, start, stop) if show_code
  
 
   if code == 301 or code == 302
@@ -107,8 +107,8 @@ list.each do |l|
     logger.log "following from #{l} to #{new_link}\n"
     str=Codesake::Links::Api.human(code)
 
-    print_string(str)     unless show_code
-    print_code(str, code) if show_code
+    Codesake::Links::Utils.print_str(logger, str, start, stop)     unless show_code
+    Codesake::Links::Utils.print_code(logger, str, code, start, stop) if show_code
 
   end
 
