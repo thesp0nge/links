@@ -30,4 +30,9 @@ Gem::Specification.new do |s|
   s.add_dependency "mechanize"
 
   s.add_dependency "codesake_commons"
+  s.post_install_message = <<-MESSAGE
+  ! The links gem is deprecated and it has been replaced by codesake_links.
+  ! See: https://rubygems.org/gems/codesake_links
+  ! And: https://github.com/codesake/codesake_links
+  MESSAGE
 end
