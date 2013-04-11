@@ -1,1 +1,1 @@
-require 'w3ping'
+require 'links'
