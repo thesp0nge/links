@@ -46,6 +46,6 @@ links http://www.some.org/somepage.html
 
 ## Copyright
 
-Copyright (c) 2010-2012 Paolo Perego, <thesp0nge@gmail.com>. See LICENSE for
+Copyright (c) 2010-2013 Paolo Perego, <paolo@armoredcode.com>. See LICENSE for
 further details.
 
