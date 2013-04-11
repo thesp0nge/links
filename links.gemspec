@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.name        = "links"
   s.version     = Links::Version.version
   s.authors     = ["Paolo Perego"]
-  s.email       = ["thesp0nge@gmail.com"]
+  s.email       = ["paolo@armoredcode.com"]
   s.homepage    = ""
   s.summary     = %q{Fetch, discover and crawl what's available in a website.}
   s.description = %q{During the first stage of a security test, it's useful to enumerate website urls without making too much noise. Links can help in this using robots.txt or link in a web page telling you the website contents.}
@@ -28,4 +28,6 @@ Gem::Specification.new do |s|
 
   s.add_dependency "nokogiri"
   s.add_dependency "mechanize"
+
+  s.add_dependency "codesake_commons"
 end
